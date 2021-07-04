@@ -4,7 +4,6 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
-import GotServise from '../../services/gotService';
 
 
 export default class App extends Component {

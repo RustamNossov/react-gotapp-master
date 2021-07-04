@@ -42,33 +42,34 @@ export default class GotServise {
     }
 
     _transformCharacter(char) {
+       
         return {
-            name: char.name,
-            gender: char.gender,
-            born: char.born,
-            died: char.died,
-            culture: char.culture
+            name: char.name || 'unknown',
+            gender: char.gender || 'unknown',
+            born: char.born || 'unknown',
+            died: char.died || 'unknown',
+            culture: char.culture || 'unknown'
         }
     }
 
 
     _transformHouse(house){
         return {
-            name: house.name,
-            region: house.region,
-            woreds: house.words,
-            titles: house.titles,
-            overlord: house.overlord,
-            ancestralWeapons: house.ancestralWeapons
+            name: house.name || 'unknown',
+            region: house.region || 'unknown',
+            woreds: house.words || 'unknown',
+            titles: house.titles || 'unknown',
+            overlord: house.overlord || 'unknown',
+            ancestralWeapons: house.ancestralWeapons || 'unknown'
         }
     }
 
     _transformBook(book) {
         return {
-            name: book.name,
-            numberOfPages: book.numberOfPages,
-            publisher: book.publisher,
-            realised: book.realised
+            name: book.name || 'unknown',
+            numberOfPages: book.numberOfPages || 'unknown',
+            publisher: book.publisher || 'unknown',
+            realised: book.realised || 'unknown'
         }
     }
 }

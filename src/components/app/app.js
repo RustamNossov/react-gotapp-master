@@ -7,13 +7,27 @@ import CharDetails from '../charDetails';
 
 
 export default class App extends Component {
+    constructor() {
+        super()
+    }
     
+    state = {
+        hidden: false
+    }
            
-
+    hideBtn = () => {
+        this.setState(({hidden}) => {
+            return {
+                hidden: !hidden
+            }
+        })
+    }
         
 
     render() {
-        
+
+        const {hidden} = this.state;
+        const randomCharBlock = hidden ? null : <RandomChar/>;
         return (
             <div> 
                 <Container>
@@ -22,9 +36,14 @@ export default class App extends Component {
                 <Container>
                     <Row>
                         <Col lg={{size: 5, offset: 0}}>
-                            <RandomChar/>
+                            {randomCharBlock}
+                            {/* <RandomChar/> */}
                         </Col>
                     </Row>
+                    <button 
+                        onClick={this.hideBtn}
+                        className='hideButton'
+                        >Hide Random Char</button>
                     <Row>
                         <Col md='6'>
                             <ItemList />

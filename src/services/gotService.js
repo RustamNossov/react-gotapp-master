@@ -44,6 +44,7 @@ export default class GotServise {
     _transformCharacter(char) {
        
         return {
+            url: char.url,
             name: char.name || 'unknown',
             gender: char.gender || 'unknown',
             born: char.born || 'unknown',

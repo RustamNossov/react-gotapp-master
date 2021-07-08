@@ -1,0 +1,11 @@
+.errorMessage-img {
+    position: relative;
+    width: 100%;
+}
+
+.errorMessage-img~span {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    color: white;
+} 

@@ -1,31 +1,27 @@
 import React, {Component} from 'react';
-import './randomChar.css';
-import GotServise from '../../services/gotService';
+import './randomItem.css';
 import Spinner from '../spinner/spinner';
+import ErrorMessage from '../errorMessage/errorMessage';
 
-export default class RandomChar extends Component {
+export default class RandomItem extends Component {
    
-    
-
-    
-    gotService = new GotServise();
     state = {
-        char: {},
+        item: null,
         loading: true,
         error: false
     }
 
     componentDidMount() {
-        this.updateChar();
-        this.timerId = setInterval(this.updateChar, 1000);
+        this.updateItem();
+        this.timerId = setInterval(this.updateItem, 1000);
     }
     componentWillUnmount() {
         clearInterval(this.timerId);
     }
 
-    onCharLoaded = (char) => {
+    onItemLoaded = (item) => {
         this.setState({ 
-            char,
+            item,
             loading: false 
         })
     }
@@ -35,60 +31,56 @@ export default class RandomChar extends Component {
             loading: false
         })
     }
-        
-    updateChar = () => {
-        
-        const id =  Math.floor(Math.random() * 140 + 25);
-        this.gotService.getCaracterById(id)
-            .then(this.onCharLoaded)
+
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+      }
+
+    updateItem = () => {
+        const {getData, minItemId, maxItemId} = this.props
+        const id =  this.getRandomInt(minItemId, maxItemId);
+        getData(id)
+            .then(this.onItemLoaded)
             .catch(this.onError)
     }
 
     render() {
-        console.log('render')
 
-        const {char, loading, error} = this.state;
-       
-        // if (loading) {
-        //     return (
-        //         <div className="random-block rounded">
-        //             <Spinner/>
-        //         </div>
-        //     )
-        // }
-        
-
+        const {item, loading, error} = this.state;
         if (error) {
-            const style = {
-                width: '100%'
-            }
             return (
-                
                 <div className="random-block rounded">
-                    <img style={style} src={process.env.PUBLIC_URL+'img/error.jpeg'} alt='error'></img>
-                     <span>Something went wrong</span>
-
+                   <ErrorMessage/>
                  </div>
             )
         }
         
-        const spinner = loading ? <Spinner/> : <Viev char = {char}/>
+        const data = loading ? <Spinner/> : <Viev item = {item} pageName={this.props.pageName} props={this.props}/>
 
         return (
             <div className="random-block rounded">
-               {spinner} {/*  <Viev char = {char}/> */}
+               {data} {/*  <Viev item = {item}/> */}
             </div>
         );
     }
 }
 
-const Viev = ({char}) => {
-    const {name, gender, born, died, culture} = char
+const Viev = ({item, pageName, props}) => {
+    const {name} = item
     return (
         <div>
-         <h4>Random Character: {name}</h4>
+         <h4>{`Random ${pageName}`}: {name}</h4>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between">
+
+                {
+                        React.Children.map(props.children, (child) => {
+                            return React.cloneElement(child, {item})
+                        })
+                    }
+
+                    {/* <li className="list-group-item d-flex justify-content-between">
                         <span className="term">Gender </span>
                         <span>{gender}</span>
                     </li>
@@ -103,7 +95,7 @@ const Viev = ({char}) => {
                     <li className="list-group-item d-flex justify-content-between">
                         <span className="term">Culture </span>
                         <span>{culture}</span>
-                    </li>
+                    </li> */}
                 </ul>
         </div>
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
 const HeaderBlock = styled.div`
@@ -26,27 +26,32 @@ const HeaderLinks = styled.ul`
     }
 `;
 
-const Header = () => {
-    return (
-        <HeaderBlock>
-            <HeaderTitle>
-                <a href="#">
-                Game of Thrones DB
-                </a>
-            </HeaderTitle>
-            <HeaderLinks>
-                <li>
-                    <a href="#">Characters</a>
-                </li>
-                <li>
-                    <a href="#">Houses</a>
-                </li>
-                <li>
-                    <a href="#">Books</a>   
-                </li>
-            </HeaderLinks>
-        </HeaderBlock>
-    );
+export default class Header extends Component {
+    
+    render() {
+        const {onSelectPage} = this.props
+        return (
+            <HeaderBlock>
+                <HeaderTitle>
+                    <a href="#">
+                    Game of Thrones DB
+                    </a>
+                </HeaderTitle>
+                <HeaderLinks>
+                    <li onClick={()=>{onSelectPage('characters')}}>
+                        <a href="#">Characters</a>
+                    </li>
+                    <li onClick={()=>{onSelectPage('houses')}}>
+                        <a href="#">Houses</a>
+                    </li>
+                    <li onClick={()=>{onSelectPage('books')}}>
+                        <a href="#">Books</a>   
+                    </li>
+                </HeaderLinks>
+            </HeaderBlock>
+        );
+    }
+    
 };
 
-export default Header;
+//export default Header;

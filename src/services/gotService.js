@@ -4,7 +4,7 @@ export default class GotServise {
     constructor() {
         this._apiBase = 'https://www.anapioficeandfire.com/api'
     }
-    async getResource(url) { 
+    getResource = async (url) => { 
         const res = await fetch(`${this._apiBase}${url}`);
 
         if (!res.ok) {
@@ -14,34 +14,34 @@ export default class GotServise {
         return await res.json()
     }
 
-    async getAllCharacers() {
-        const result = await this.getResource(`/characters?page=5&pageSize=20`);
+    getAllCharacers = async (pageSize=10, pageNumb=10) => {
+        const result = await this.getResource(`/characters?page=${pageNumb}&pageSize=${pageSize}`);
         return result.map(this._transformCharacter);
     }
 
-    async getCaracterById(id) {
+    getCaracterById = async (id) => {
         const character = await this.getResource(`/characters/${id}`);
         return this._transformCharacter(character);
 
     }
 
-    getAllHouses() {
-        return this.getResource(`/houses`)
+    getAllHouses = async (pageSize=10, pageNumb=10) => {
+        return this.getResource(`/houses?page=${pageNumb}&pageSize=${pageSize}`)
     }
 
-    getHouseById(id) {
+    getHouseById = async (id) => {
         return this.getResource(`/houses/${id}`)
     }
 
-    getAllBooks() {
-        return this.getResource(`/books`)
+    getAllBooks = async (pageSize=10, pageNumb=10) => {
+        return this.getResource(`/books?page=${pageNumb}&pageSize=${pageSize}`)
     }
 
-    getBookById(id) {
+    getBookById  = async (id) => {
         return this.getResource(`/books/${id}`)
     }
 
-    _transformCharacter(char) {
+    _transformCharacter = (char) => {
        
         return {
             url: char.url,
@@ -54,7 +54,7 @@ export default class GotServise {
     }
 
 
-    _transformHouse(house){
+    _transformHouse = (house) => {
         return {
             name: house.name || 'unknown',
             region: house.region || 'unknown',
@@ -65,7 +65,7 @@ export default class GotServise {
         }
     }
 
-    _transformBook(book) {
+    _transformBook = (book) => {
         return {
             name: book.name || 'unknown',
             numberOfPages: book.numberOfPages || 'unknown',

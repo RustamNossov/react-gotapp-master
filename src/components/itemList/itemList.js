@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import './itemList.css';
-import GotServise from '../../services/gotService';
+import Spinner from '../spinner/spinner';
+import ErrorMessage from '../errorMessage/errorMessage';
+
 
 export default class ItemList extends Component {
+   
 
-    gotService = new GotServise();
+    
     state = {
-        listOfChar: [],
+        itemList: [],
         error: false
     }
 
@@ -15,44 +18,46 @@ export default class ItemList extends Component {
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacers()
-            .then(res => {
-                this.setState({listOfChar: res})
+        const {getData, pageSize, pageNumb} = this.props
+        //this.gotService.getAllCharacers()
+        getData(pageSize, pageNumb)
+            .then(itemList => {
+                this.setState({itemList})
                 
             })
             .catch(this.errorMessage)
     }
 
-    render() {
-        const {listOfChar, error} = this.state;
-        console.log(listOfChar)
-        let elements = null;
-        if (!error) {
-            elements = listOfChar.map((char) => {
-                return (
-                 <li key={char.url}
-                     className="list-group-item">
-                     {char.name}
-                 </li>
-                )
-             })
-        } else {
-            const style = {
-                width: '70%'
-            }
+    renderItems(arr) {
+        return arr.map((item) => {
+            const {url} = item;
+            const label = this.props.renderItem(item);
             return (
+             <li 
+                 onClick={()=>{this.props.onItemSelected(url)}}
+                 key={url}
+                 className="list-group-item"
+                 >
                 
-                <ul className="item-list list-group">
-                    <img style={style} src={process.env.PUBLIC_URL+'img/error.jpeg'} alt='error'></img>
-                     <span>Something went wrong</span>
-
-                </ul>
+                 {label}
+             </li>
             )
+         })
+    }
+
+    render() {
+        const {itemList, error} = this.state;
+
+        if (itemList === []) {
+            return <Spinner/>
         }
+
+        const lisOrError = error ? <ErrorMessage/> : this.renderItems(itemList)
+
         
         return (
             <ul className="item-list list-group">
-                {elements}
+                {lisOrError}
             </ul>
         );
     }

@@ -1,0 +1,8 @@
+.hideButton {
+    FONT-WEIGHT: 500;
+    margin-bottom: 2rem;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #899297;
+    color: white;
+}

@@ -12,7 +12,7 @@ import RandomItem from '../randomItem';
 export default class CharacterPage extends Component {
     
     state = {
-        
+        hidden: false,
         charSelected: null,
         pageName:'character'
     }
@@ -28,9 +28,18 @@ export default class CharacterPage extends Component {
         })
         
     }
+
+    hideBtn = () => {
+        
+        this.setState(({hidden}) => {
+            return {
+                hidden: !hidden
+            }
+        })
+    }
     
     render() {
-        let {charSelected, pageName} = this.state;
+        let {charSelected, pageName, hidden} = this.state;
              //charSelected = charSelected ? charSelected : this.charSelected;
         const itemList = (
             <ItemList onItemSelected={this.onCharSelected}
@@ -53,7 +62,6 @@ export default class CharacterPage extends Component {
                 <Field field='culture' label='Culture'/>
             </ItemDetails>
         )
-        const {hideBtn, hidden} = this.props
         const randomChar= hidden ? null :(
             <RandomItem 
                 minItemId={this.charSelected}
@@ -77,7 +85,7 @@ export default class CharacterPage extends Component {
                         right={randomChar}
                     />
                 <HideButton
-                    hideBtn={hideBtn}
+                    hideBtn={this.hideBtn}
                     part='Character'
                 />
                 <RowBlock 

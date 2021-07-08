@@ -9,6 +9,9 @@ import GotServise from '../../services/gotService';
 import ErrorMessage from '../errorMessage/errorMessage';
 import BooksPage from '../booksPage/booksPage';
 import HousePage from '../housesPage/housesPage';
+import {BrowserRouter as Router, Route } from "react-router-dom";
+import BooksItem from '../booksPage/booksItem';
+
 //import HideButton from '../hideButton/hideButton';
 
 
@@ -17,7 +20,7 @@ import HousePage from '../housesPage/housesPage';
 export default class App extends Component {
    
     state = {
-        hidden: false,
+        
         error: false,
         page: 'characters'
     }
@@ -29,15 +32,7 @@ export default class App extends Component {
         this.setState({error: true})
     }
 
-    hideBtn = () => {
-        
-        this.setState(({hidden}) => {
-            return {
-                hidden: !hidden
-            }
-        })
-    }
-
+   
     onSelectPage = (page) => {
         this.setState({page})
     }
@@ -52,56 +47,74 @@ export default class App extends Component {
             )
         }
 
-        const {hidden, page} = this.state;
-        let selectedPage ;
-        switch(page) {
-            case 'characters':  
-                selectedPage = <CharacterPage
-                                    hideBtn={this.hideBtn}
-                                    hidden={hidden}/>
-            break
+        //const {hidden, page} = this.state;
+        // let selectedPage ;
+        // switch(page) {
+        //     case 'characters':  
+        //         selectedPage = <CharacterPage
+        //                             hideBtn={this.hideBtn}
+        //                             hidden={hidden}/>
+        //     break
           
-            case 'houses':  
-                selectedPage = <HousePage
-                                    hideBtn={this.hideBtn}
-                                    hidden={hidden}/>
-            break
+        //     case 'houses':  
+        //         selectedPage = <HousePage
+        //                             hideBtn={this.hideBtn}
+        //                             hidden={hidden}/>
+        //     break
 
-            case 'books':  // if (x === 'value2')
-                selectedPage = <BooksPage
-                                    hideBtn={this.hideBtn}
-                                    hidden={hidden}/>
-            break
+        //     case 'books':  // if (x === 'value2')
+        //         selectedPage = <BooksPage
+        //                             hideBtn={this.hideBtn}
+        //                             hidden={hidden}/>
+        //     break
           
-            default:
-                selectedPage = <CharacterPage
-                                hideBtn={this.hideBtn}
-                                hidden={hidden}/>
-                break
-          }
+        //     default:
+        //         selectedPage = <CharacterPage
+        //                         hideBtn={this.hideBtn}
+        //                         hidden={hidden}/>
+        //         break
+        //   }
 
         return (
-            <div> 
-                <Container>
-                    <Header onSelectPage={this.onSelectPage}/>
-                </Container>
-                <Container>
-                    {selectedPage}
-                    <CharacterPage
-                        hideBtn={this.hideBtn}
-                        hidden={hidden}/>
+            <Router>
+                <div className="app"> 
+                    <Container>
+                        <Header onSelectPage={this.onSelectPage}/>
+                    </Container>
+                    <Container>
+                        {/* {selectedPage} */}
+                        <Route path='/characters/' exact={true} component={CharacterPage}/>
+                        <Route path='/houses/' exact component={HousePage}/>
+                        <Route path='/books/' exact component={BooksPage}/>
+                        <Route path='/books/:id' render={
+                            ({match, location, history})=> {
+                                // console.log(match.params.id)
+                                // console.log(location)
 
-                    <BooksPage
-                        hideBtn={this.hideBtn}
-                        hidden={hidden}/>
+                                // console.log(history)
 
-                    <HousePage
-                        hideBtn={this.hideBtn}
-                        hidden={hidden}/>
+                                return <BooksItem bookId={match.params.id}/>    
+                            }
+                            }/>
 
-                    
-                </Container>
-            </div>
+
+                        {/* <CharacterPage
+                            hideBtn={this.hideBtn}
+                            hidden={hidden}/>
+
+                        <BooksPage
+                            hideBtn={this.hideBtn}
+                            hidden={hidden}/>
+
+                        <HousePage
+                            hideBtn={this.hideBtn}
+                            hidden={hidden}/> */}
+
+                        
+                    </Container>
+                </div>
+            </Router>
+            
         );
     }
 

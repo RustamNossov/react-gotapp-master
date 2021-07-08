@@ -12,7 +12,7 @@ import RandomItem from '../randomItem';
 export default class HousePage extends Component {
     
     state = {
-        
+        hidden: false,
         houseSelected: null,
         pageName:'house'
     }
@@ -28,9 +28,17 @@ export default class HousePage extends Component {
         })
         
     }
+
+    hideBtn = () => {
+        this.setState(({hidden}) => {
+            return {
+                hidden: !hidden
+            }
+        })
+    }
     
     render() {
-        let {houseSelected, pageName} = this.state;
+        let {houseSelected, pageName, hidden} = this.state;
              //houseSelected = houseSelected ? houseSelected : this.houseSelected;
         const itemList = (
             <ItemList onItemSelected={this.onHouseSelected}
@@ -53,7 +61,6 @@ export default class HousePage extends Component {
                 <Field field='diedOut' label='Died Out'/>
             </ItemDetails>
         )
-        const {hideBtn, hidden} = this.props
         const randomHouse= hidden ? null :(
             <RandomItem 
                 minItemId={this.houseSelected}
@@ -72,12 +79,11 @@ export default class HousePage extends Component {
         return (
             
             <div>
-               
                     <RowBlock 
                         right={randomHouse}
                     />
                 <HideButton
-                    hideBtn={hideBtn}
+                    hideBtn={this.hideBtn}
                     part='House'
                 />
                 <RowBlock 

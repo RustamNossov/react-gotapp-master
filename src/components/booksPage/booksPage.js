@@ -12,7 +12,7 @@ import RandomItem from '../randomItem';
 export default class BooksPage extends Component {
     
     state = {
-        
+        hidden: false,
         bookSelected: null,
         pageName:'book'
     }
@@ -27,9 +27,19 @@ export default class BooksPage extends Component {
         })
         
     }
+
+    hideBtn = () => {
+        this.setState(({hidden}) => {
+            return {
+                hidden: !hidden
+            }
+        })
+    }
+
     
     render() {
-        let {bookSelected, pageName} = this.state;
+
+        let {bookSelected, pageName, hidden} = this.state;
              //bookSelected = bookSelected ? bookSelected : this.bookSelected;
         const itemList = (
             <ItemList onItemSelected={this.onBookSelected}
@@ -52,7 +62,7 @@ export default class BooksPage extends Component {
                 <Field field='released' label='Released'/>
             </ItemDetails>
         )
-        const {hideBtn, hidden} = this.props
+        console.log(hidden)
         const randomBook = hidden ? null : (
             <RandomItem 
                 minItemId={this.bookSelected}
@@ -66,17 +76,15 @@ export default class BooksPage extends Component {
                 <Field field='released' label='Released'/>
             </RandomItem>
         )
-
         
         return (
             
             <div>
-               
                     <RowBlock 
                         right={randomBook}
                     />
                 <HideButton
-                    hideBtn={hideBtn}
+                    hideBtn={this.hideBtn}
                     part='Book'
                 />
                 <RowBlock 

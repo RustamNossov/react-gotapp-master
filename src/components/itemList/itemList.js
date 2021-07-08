@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './itemList.css';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
+import {Link} from 'react-router-dom';
+
 
 
 export default class ItemList extends Component {
@@ -38,8 +40,8 @@ export default class ItemList extends Component {
                  key={url}
                  className="list-group-item"
                  >
-                
-                 {label}
+                <Link to={'books'+url.substring(url.lastIndexOf('/'))}>{label}</Link>
+               
              </li>
             )
          })

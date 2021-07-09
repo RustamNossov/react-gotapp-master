@@ -40,13 +40,13 @@ export default class Header extends Component {
                 </HeaderTitle>
                 <HeaderLinks>
                     <li onClick={()=>{onSelectPage('characters')}}>
-                        <Link to='/characters'>Characters</Link>
+                        <Link to='/characters/'>Characters</Link>
                     </li>
                     <li onClick={()=>{onSelectPage('houses')}}>
-                        <Link to='/houses'>Houses</Link>
+                        <Link to='/houses/'>Houses</Link>
                     </li>
                     <li onClick={()=>{onSelectPage('books')}}>
-                        <Link to='/books'>Books</Link>   
+                        <Link to='/books/'>Books</Link>   
                     </li>
                 </HeaderLinks>
             </HeaderBlock>

@@ -41,7 +41,8 @@ export default class HousePage extends Component {
         let {houseSelected, pageName, hidden} = this.state;
              //houseSelected = houseSelected ? houseSelected : this.houseSelected;
         const itemList = (
-            <ItemList onItemSelected={this.onHouseSelected}
+            <ItemList 
+                    onItemSelected={this.onHouseSelected}
                     getData={this.gotService.getAllHouses}
                     renderItem={(item)=>`${item.name}`}
                     pageSize={this.pageSize}
@@ -67,6 +68,7 @@ export default class HousePage extends Component {
                 maxItemId={this.houseSelected+this.pageSize}
                 getData={this.gotService.getHouseById}
                 pageName={pageName}
+                interval={2000}
                 >
                 <Field field='region' label='Region'/>
                 <Field field='currentLord' label='Current Lord'/>

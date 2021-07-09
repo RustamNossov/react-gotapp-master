@@ -68,6 +68,7 @@ export default class CharacterPage extends Component {
                 maxItemId={this.charSelected+this.pageSize}
                 getData={this.gotService.getCaracterById}
                 pageName={pageName}
+                interval={2000}
                 >
                 <Field field='gender' label='Gender'/>
                 <Field field='born' label='Born'/>

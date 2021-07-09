@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './randomItem.css';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
+import PropTypes from 'prop-types';
 
 export default class RandomItem extends Component {
    
@@ -10,10 +11,14 @@ export default class RandomItem extends Component {
         loading: true,
         error: false
     }
+    //задаем props по умолчанию. Не вошло в стандарт
+    // static defaultProps = {
+    //     interval: 15000
+    // }
 
     componentDidMount() {
         this.updateItem();
-        this.timerId = setInterval(this.updateItem, 1000);
+        this.timerId = setInterval(this.updateItem, this.props.interval);
     }
     componentWillUnmount() {
         clearInterval(this.timerId);
@@ -66,6 +71,17 @@ export default class RandomItem extends Component {
         );
     }
 }
+
+// задаем props по умолчанию
+RandomItem.defaultProps = { 
+    interval: 15000
+}
+//проверка является ли interval числом
+RandomItem.propTypes = { 
+    interval: PropTypes.number
+}
+
+
 
 const Viev = ({item, pageName, props}) => {
     const {name} = item

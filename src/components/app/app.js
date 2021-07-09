@@ -11,7 +11,7 @@ import BooksPage from '../booksPage/booksPage';
 import HousePage from '../housesPage/housesPage';
 import {BrowserRouter as Router, Route } from "react-router-dom";
 import BooksItem from '../booksPage/booksItem';
-
+import './app.css';
 //import HideButton from '../hideButton/hideButton';
 
 
@@ -83,15 +83,15 @@ export default class App extends Component {
                     </Container>
                     <Container>
                         {/* {selectedPage} */}
-                        <Route path='/characters/' exact={true} component={CharacterPage}/>
-                        <Route path='/houses/' exact component={HousePage}/>
+                        <Route path='/characters'  component={CharacterPage}/>
+                        <Route path='/houses'  component={HousePage}/>
                         <Route path='/books/' exact component={BooksPage}/>
                         <Route path='/books/:id' render={
                             ({match, location, history})=> {
-                                // console.log(match.params.id)
-                                // console.log(location)
+                                console.log(match.params.id)
+                                console.log(location)
 
-                                // console.log(history)
+                                console.log(history)
 
                                 return <BooksItem bookId={match.params.id}/>    
                             }

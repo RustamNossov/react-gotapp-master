@@ -5,11 +5,12 @@ import GotServise from '../../services/gotService';
 import RowBlock from '../rowBlock/rowBlock';
 import HideButton from '../hideButton/hideButton';
 import RandomItem from '../randomItem';
+import {withRouter} from 'react-router-dom';
  
 
 
 
-export default class BooksPage extends Component {
+class BooksPage extends Component {
     
     state = {
         hidden: false,
@@ -42,26 +43,29 @@ export default class BooksPage extends Component {
         let {bookSelected, pageName, hidden} = this.state;
              //bookSelected = bookSelected ? bookSelected : this.bookSelected;
         const itemList = (
-            <ItemList onItemSelected={this.onBookSelected}
+            <ItemList onItemSelected={(itemId)=>{
+                    console.log(itemId)
+                    this.props.history.push(itemId)
+            }} //{this.onBookSelected}
                     getData={this.gotService.getAllBooks}
                     renderItem={(item)=>`${item.name} (${item.authors})`}
                     pageSize={this.pageSize}
                     pageNumb={this.pageNumb}
             />
         )
-        const bookDetails = (
-            <ItemDetails 
-                getData={this.gotService.getBookById}
-                itemId={bookSelected}
-                pageName={pageName}
-                >
+        // const bookDetails = (
+        //     <ItemDetails 
+        //         getData={this.gotService.getBookById}
+        //         itemId={bookSelected}
+        //         pageName={pageName}
+        //         >
                     
-                <Field field='authors' label='Authors'/>
-                <Field field='publiser' label='Publiser'/>
-                <Field field='numberOfPages' label='Number of pages'/>
-                <Field field='released' label='Released'/>
-            </ItemDetails>
-        )
+        //         <Field field='authors' label='Authors'/>
+        //         <Field field='publiser' label='Publiser'/>
+        //         <Field field='numberOfPages' label='Number of pages'/>
+        //         <Field field='released' label='Released'/>
+        //     </ItemDetails>
+        // )
         console.log(hidden)
         const randomBook = hidden ? null : (
             <RandomItem 
@@ -69,6 +73,7 @@ export default class BooksPage extends Component {
                 maxItemId={this.bookSelected+this.pageSize}
                 getData={this.gotService.getBookById}
                 pageName={pageName}
+                //interval={2000}
                 >
                 <Field field='authors' label='Authors'/>
                 <Field field='publiser' label='Publiser'/>
@@ -87,12 +92,15 @@ export default class BooksPage extends Component {
                     hideBtn={this.hideBtn}
                     part='Book'
                 />
-                <RowBlock 
+                {itemList}
+                {/* <RowBlock 
                     left={itemList}
                     right={bookDetails}
-                />
+                /> */}
             </div>
             
         )
     }
 }
+
+export default withRouter(BooksPage);

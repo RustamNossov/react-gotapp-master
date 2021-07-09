@@ -3,6 +3,8 @@ import './itemList.css';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 
 
@@ -33,15 +35,16 @@ export default class ItemList extends Component {
     renderItems(arr) {
         return arr.map((item) => {
             const {url} = item;
+            const id = url.substring(url.lastIndexOf('/')+1);
             const label = this.props.renderItem(item);
             return (
              <li 
-                 onClick={()=>{this.props.onItemSelected(url)}}
+                 onClick={()=>{this.props.onItemSelected(id)}}
                  key={url}
                  className="list-group-item"
                  >
-                <Link to={'books'+url.substring(url.lastIndexOf('/'))}>{label}</Link>
-               
+                {/* <Link to={'books'+url.substring(url.lastIndexOf('/'))}>{label}</Link> */}
+                {label}
              </li>
             )
          })
@@ -64,3 +67,14 @@ export default class ItemList extends Component {
         );
     }
 }
+
+ItemList.defaultProps = {
+    onItemSelected: ()=>{}
+}
+
+ItemList.PropTypes = {
+    onItemSelected: PropTypes.func,
+    
+    // getData: PropTypes.arrayOf(PropTypes.object) //проверяем на массив объектов
+}
+
